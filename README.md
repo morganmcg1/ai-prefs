@@ -21,8 +21,9 @@ config = sp.parse(Config)
 ```
 ## Weave Evalutions
 Building a weave evaluation:
-1. Build a Model
-Models store and version information about your system, such as prompts, temperatures, and more. Weave automatically captures when they are used and updates the version when there are changes.
+1. Build a Weave Model
+Weave Models are pydantic models.
+Weave Models store and version information about your system, such as prompts, temperatures, and more. Weave automatically captures when they are used and updates the version when there are changes.
 
 Models are declared by subclassing Model and implementing a predict function definition, which takes one example and returns the response.
 
@@ -37,6 +38,10 @@ import weave
 class ExtractFruitsModel(weave.Model):
     model_name: str
     prompt_template: str
+
+    # Use a model_post_init method to do any initialisation or loading of ML model weights etc after init
+    def model_post_init():
+        pass
 
     @weave.op()
     async def predict(self, sentence: str) -> dict:
